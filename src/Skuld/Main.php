@@ -3,11 +3,13 @@
 namespace Skuld;
 
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as TE;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
 
 class Main extends PluginBase implements Listener {
 
@@ -19,7 +21,7 @@ class Main extends PluginBase implements Listener {
         $this->Data = new Config($this->getDataFolder() . "vips.json", Config::JSON);
     }
 
-    public function onPlayerLogin(PlayerJoinEvent $event) {
+    public function onPlayerLogin(PlayerLoginEvent $event) {
         $player = $event->getPlayer();
         $playername = $player->getName();
         $entra = false;
@@ -48,8 +50,17 @@ class Main extends PluginBase implements Listener {
         return $this->Data->get($username);
     }
 
-    public function onPlayerQuit(PlayerQuitEvent $event){
+    public function onPlayerQuit(PlayerQuitEvent $event) {
         self::$usrActv--;
+    }
+
+    public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) : bool {
+        switch ($cmd->getName()) {
+            case 'vip':
+            if ($args[0] == 'add') {
+                # code...
+            }
+        }
     }
 
 }
