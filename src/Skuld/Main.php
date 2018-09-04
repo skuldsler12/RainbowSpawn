@@ -17,26 +17,26 @@ class Main extends PluginBase implements Listener {
 
     public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getServer()->getLogger()->info("¡RainbowSpawnProtect Cargado!");
+        $this->getServer()->getLogger()->info("¡RainbowSpawn Cargado!");
         $this->Data = new Config($this->getDataFolder() . "vips.json", Config::JSON);
     }
 
     public function onPlayerLogin(PlayerLoginEvent $event) {
         $player = $event->getPlayer();
         $playername = $player->getName();
-        $entra = false;
-        $maxUSR = 0;
-        $online = count($this->getServer()->getOnlinePlayers());
+        
         if($this->checkData($playername)) {
             $rank = $this->getRank($playername);
             $player->setNameTag(TE::GRAY."[".TE::GOLD.$rank.TE::GRAY."]".TE::AQUA.$playername);
             $player->addAttachment($this, "test.command");
+            $player->teleport($this->getServer()->getDefaultLevel()->getSafeSpawn());
         }else{
-            if ($online < $maxUSR) {
-                $event->getPlayer()->teleport($this->getServer()->getDefaultLevel()->getSafeSpawn());
+
+            $online = count($this->getServer()->getOnlinePlayers());
+            if ($online < $this->usrActv || $this->getLootVip($username)) {
                 self::$usrActv++;
             }else{
-                $event->getPlayer()->kick("Servidor completo... Prueba en 10 minutos.",true,"Servidor completo... Prueba en 10 minutos.");
+                $event->getPlayer()->kick(TE::YELLOW."Servidor completo...",true,"Vuelva a intentarlo...");
                 $event->setCancelled();
             }
         }
@@ -48,6 +48,16 @@ class Main extends PluginBase implements Listener {
 
     public function getRank($username) {
         return $this->Data->get($username);
+    }
+
+    public function setRank($username, $rank) {
+        $this->Data->set($username, $rank);
+        $this->Data->save();
+    }
+
+    public function getLootVip($username) {
+        //your code for loot vip or no vip player. RETURN IN BOOL!!
+        return true || false; //modify
     }
 
     public function onPlayerQuit(PlayerQuitEvent $event) {
