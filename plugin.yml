@@ -1,4 +1,4 @@
-name: RainbowSpawnProtect
+name: RainbowSpawn
 authors: Skuld Slër & DarkByx­
 main: Skuld\Main
 version: 1.0.0
@@ -6,5 +6,5 @@ api: 4.0.0
 commands:
   vip:
     permission: vip.command
-    description: vip command
+    description: give vip rank
     default: op
