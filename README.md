@@ -17,4 +17,4 @@ COMANDOS
 --------
 Comandos para agregar o eliminar vips
 
-    /vips add/del <nombre> [<rol>]
+    /vip add/del <nombre> [<rol>]
