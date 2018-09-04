@@ -7,13 +7,6 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\plugin\PluginBase;
 class Main extends PluginBase implements Listener{
        
-        public function onLoad(){
-                $this->getLogger()->info("onLoad() has been called!");
-                
-        }
-        public function onDisable(){
-                $this->getLogger()->info("onDisable() has been called!");
-        }
         public function onEnable(){
                 $this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->getServer()->getLogger()->info("¡RainbowSpawnProtect Cargado!");
