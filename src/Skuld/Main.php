@@ -5,11 +5,13 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\Config;
 class Main extends PluginBase implements Listener{
        
         public function onEnable(){
                 $this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->getServer()->getLogger()->info("¡RainbowSpawnProtect Cargado!");
+		$this->Data = new Config($this->getDataFolder() . "vips.json", Config::JSON);
                
         }
         public function onPlayerLogin(PlayerLoginEvent $event){
@@ -42,12 +44,15 @@ class Main extends PluginBase implements Listener{
                 
 		
         }
-        public function  loadJsonVipList()
-        {
-                $string = file_get_contents("/vips.json");
-                $json_a = json_decode($string, true);
-                return $json_a;
-        }
+	
+	public function checkData($username) {
+		return $this->Data->exists($username);
+	}
+        
+	public function getRank($username) {
+		return $this->Data->get($username);
+	}
+	
         public function onPlayerQuit(PlayerQuitEvent $event){
                 $usrActv -= 1;
         }
