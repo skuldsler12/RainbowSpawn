@@ -2,7 +2,7 @@
 
 namespace Skuld;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerLoginEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Config;
@@ -14,21 +14,25 @@ class Main extends PluginBase implements Listener{
 		$this->Data = new Config($this->getDataFolder() . "vips.json", Config::JSON);
                
         }
-        public function onPlayerLogin(PlayerLoginEvent $event){
+        public function onPlayerLogin(PlayerJoinEvent $event){
                 $playername = $event->getPlayer()->getName();
                 $entra = false;
                 $maxUSR = 0;
                 $usrActv = count($this->getServer()->getOnlinePlayers());
-                $viplist = loadJsonVipList();
+                if($this->checkData($playername)){
+			$rank = $this->getRank($playername);
+		}else{
+			//create rank data
+		}
                     
-		$this->getServer()->getLogger()->info("¡Player entrando!");
+		/*$this->getServer()->getLogger()->info("¡Player entrando!");
                 foreach ($viplist as $k => $v) {
                        if ($k === $playername) {
                                if ($v) {
                                $entra = $v; 
                                }
                        }
-                }
+                }*/#unnecesary
                 if ($entra) {
                         $event->getPlayer()->teleport($this->getServer()->getDefaultLevel()->getSafeSpawn());
                         $usrActv += 1;
